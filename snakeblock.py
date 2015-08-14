@@ -9,7 +9,6 @@ class SnakeBlock(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
 
         self.part = part #straight, bend
-        print rect
         self.rect = pg.Rect(rect)
         self.direct_to = direct_to
         self.direct_from = direct_from
@@ -20,6 +19,8 @@ class SnakeBlock(pg.sprite.Sprite):
         self.frames = get_images(self.sheet, indices, self.rect.size)
 
         self.image = self.get_image()
+        if self.image == None:
+            print self.direct_to, self.direct_from, part
 
     def get_image(self):
         if self.part == 'bend':
@@ -31,13 +32,13 @@ class SnakeBlock(pg.sprite.Sprite):
                 return self.frames[1]
             elif self.direct_to == pg.K_LEFT and self.direct_from == pg.K_DOWN:
                 return pg.transform.rotate(self.frames[1], 270)
-            elif self.direct_to == pg.K_RIGHT and self.direct_from == K_UP:
+            elif self.direct_to == pg.K_RIGHT and self.direct_from == pg.K_UP:
                 return pg.transform.rotate(self.frames[1], 90)
-            elif self.direct_to == pg.K_RIGHT and self.direct_from == K_DOWN:
+            elif self.direct_to == pg.K_RIGHT and self.direct_from == pg.K_DOWN:
                 return pg.transform.rotate(self.frames[1], 180)
-            elif self.direct_to == pg.K_DOWN and self.direct_from == K_RIGHT:
+            elif self.direct_to == pg.K_DOWN and self.direct_from == pg.K_RIGHT:
                 return self.frames[1]
-            elif self.direct_to == pg.K_DOWN and self.direct_from == K_LEFT:
+            elif self.direct_to == pg.K_DOWN and self.direct_from == pg.K_LEFT:
                 return pg.transform.rotate(self.frames[1], 90)
         else: #straight
             if self.direct_to == pg.K_UP or self.direct_to == pg.K_DOWN:

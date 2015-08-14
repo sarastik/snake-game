@@ -12,15 +12,13 @@ class Snake():
     def __init__(self, center, starting_direction = pg.K_UP):
         front = snakeblock.SnakeBlock('straight', (0,0,30,30), pg.K_UP, pg.K_DOWN)
         front.rect.center = center
-        mid_rect = front.rect
-        end_rect = front.rect
-        mid_rect.center = (front.rect.centerx, front.rect.centery + 30)
+        mid_rect = front.rect.move(0, 30)
+        end_rect = mid_rect.move(0, 30)
         middle = snakeblock.SnakeBlock('straight', mid_rect, pg.K_UP, pg.K_DOWN)
-        end_rect.center = (front.rect.centerx, middle.rect.centery + 30)
         end = snakeblock.SnakeBlock('straight', end_rect, pg.K_UP, pg.K_DOWN)
         self.sprites = [front, middle, end]
         self.direction = starting_direction
-        self.old_direction = None
+        self.old_direction = pg.K_UP
         self.key_check = False
 
     # Sets the direction after a key is pressed
@@ -34,24 +32,15 @@ class Snake():
     def update(self, screen_rect):
         if self.key_check:
             if self.direction != self.old_direction:
-                self.old_direction = self.direction
                 neck_rect = self.sprites[1].rect
                 self.sprites[1] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
+                self.old_direction = self.direction
             self.sprites.pop()
-            if self.direction == pg.K_UP:
-                centerx = self.sprites[0].rect.centerx
-                centery = self.sprites[0].rect.centery + 30
-            elif self.direction == pg.K_DOWN:
-                centerx = self.sprites[0].rect.centerx
-                centery = self.sprites[0].rect.centery - 30
-            elif self.direction == pg.K_RIGHT:
-                centerx = self.sprites[0].rect.centerx + 30
-                centery = self.sprites[0].rect.centery
-            else: #can only be left?
-                centerx = self.sprites[0].rect.centerx - 30
-                centery = self.sprites[0].rect.centery
-            front_rect = self.sprites[0].rect.center(centerx, centery)
-            self.sprites.add('straight', front_rect, self.direction, self.old_direction)
+            x = DIRECT_DICT[self.direction][0]
+            y = DIRECT_DICT[self.direction][1]
+            front_rect = self.sprites[0].rect.move(x*30, y*30)
+            front = snakeblock.SnakeBlock('straight', front_rect, self.direction, self.old_direction)
+            self.add(front)
         
         
     
