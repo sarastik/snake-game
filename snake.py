@@ -30,17 +30,17 @@ class Snake():
         self.sprites.insert(0, sprite)
 
     def update(self, screen_rect):
-        if self.key_check:
+        if self.key_check:            
             if self.direction != self.old_direction:
-                neck_rect = self.sprites[1].rect
-                self.sprites[1] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
+                neck_rect = self.sprites[0].rect
+                self.sprites[0] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
                 self.old_direction = self.direction
-            self.sprites.pop()
             x = DIRECT_DICT[self.direction][0]
             y = DIRECT_DICT[self.direction][1]
             front_rect = self.sprites[0].rect.move(x*30, y*30)
             front = snakeblock.SnakeBlock('straight', front_rect, self.direction, self.old_direction)
             self.add(front)
+            self.sprites.pop()
         
         
     
