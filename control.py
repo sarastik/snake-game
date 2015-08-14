@@ -30,10 +30,9 @@ class Control():
     def main_loop(self):
         while not self.done:
             self.event_loop()
-            pg.time.delay(100) #for effect
+            pg.time.delay(100) #for effect and slower speed
             self.snake.update(self.screen_rect)
             self.screen.blit(self.background, (0,0))
-            #self.screen.blit(self.snake.image, self.snake.rect)
             for part in self.snake.sprites:
                 self.screen.blit(part.image, part.rect)
             pg.display.update()

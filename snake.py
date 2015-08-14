@@ -10,7 +10,7 @@ DIRECT_DICT = {pg.K_LEFT: (-1, 0),
 class Snake():
 
     def __init__(self, center, starting_direction = pg.K_UP):
-        front = snakeblock.SnakeBlock('straight', (0,0,30,30), pg.K_UP, pg.K_DOWN)
+        front = snakeblock.SnakeBlock('head', (0,0,30,30), pg.K_UP, pg.K_DOWN)
         front.rect.center = center
         mid_rect = front.rect.move(0, 30)
         end_rect = mid_rect.move(0, 30)
@@ -35,10 +35,13 @@ class Snake():
                 neck_rect = self.sprites[0].rect
                 self.sprites[0] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
                 self.old_direction = self.direction
+            else:
+                neck_rect = self.sprites[0].rect
+                self.sprites[0] = snakeblock.SnakeBlock('straight', neck_rect, self.direction, self.old_direction)
             x = DIRECT_DICT[self.direction][0]
             y = DIRECT_DICT[self.direction][1]
             front_rect = self.sprites[0].rect.move(x*30, y*30)
-            front = snakeblock.SnakeBlock('straight', front_rect, self.direction, self.old_direction)
+            front = snakeblock.SnakeBlock('head', front_rect, self.direction, self.old_direction)
             self.add(front)
             self.sprites.pop()
         

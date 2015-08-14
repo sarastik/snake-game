@@ -19,8 +19,6 @@ class SnakeBlock(pg.sprite.Sprite):
         self.frames = get_images(self.sheet, indices, self.rect.size)
 
         self.image = self.get_image()
-        if self.image == None:
-            print self.direct_to, self.direct_from, part
 
     def get_image(self):
         if self.part == 'bend':
@@ -40,6 +38,15 @@ class SnakeBlock(pg.sprite.Sprite):
                 return self.frames[1]
             elif self.direct_to == pg.K_DOWN and self.direct_from == pg.K_LEFT:
                 return pg.transform.rotate(self.frames[1], 90)
+        elif self.part == 'head':
+            if self.direct_to == pg.K_UP:
+                return self.frames[0]
+            elif self.direct_to == pg.K_RIGHT:
+                return pg.transform.rotate(self.frames[0], 270)
+            elif self.direct_to == pg.K_LEFT:
+                return pg.transform.rotate(self.frames[0], 90)
+            else:
+                return pg.transform.rotate(self.frames[0], 180)
         else: #straight
             if self.direct_to == pg.K_UP or self.direct_to == pg.K_DOWN:
                 return pg.transform.rotate(self.frames[2], 90)
