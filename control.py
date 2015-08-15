@@ -9,7 +9,7 @@ class Control():
     def __init__(self):
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pg.init()
-        pg.display.set_mode((600, 600))
+        pg.display.set_mode((570, 570))
         self.background = pg.image.load("sand.png").convert()
         self.game_over = pg.image.load("game_over.png").convert()
         self.screen = pg.display.get_surface()

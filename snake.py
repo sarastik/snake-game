@@ -48,6 +48,9 @@ class Snake():
             front = snakeblock.SnakeBlock('head', front_rect, self.direction, self.old_direction)
             self.add(front)
             self.sprites.pop()
+        clamped = self.sprites[0].rect.clamp(0,0,600,600)
+        if clamped != self.sprites[0].rect:
+            self.dead = True
 
 def opposite(dir1, dir2):
     dead_list = [(pg.K_UP, pg.K_DOWN), (pg.K_DOWN, pg.K_UP),
