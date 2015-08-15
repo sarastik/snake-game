@@ -19,7 +19,9 @@ class Snake():
         self.sprites = [front, middle, end]
         self.direction = starting_direction
         self.old_direction = pg.K_UP
+
         self.key_check = False
+        self.dead = False
 
     # Sets the direction after a key is pressed
     def change_direction(self, key):
@@ -30,7 +32,9 @@ class Snake():
         self.sprites.insert(0, sprite)
 
     def update(self, screen_rect):
-        if self.key_check:            
+        if opposite(self.direction, self.old_direction):
+            self.dead = True
+        elif self.key_check:
             if self.direction != self.old_direction:
                 neck_rect = self.sprites[0].rect
                 self.sprites[0] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
@@ -44,6 +48,11 @@ class Snake():
             front = snakeblock.SnakeBlock('head', front_rect, self.direction, self.old_direction)
             self.add(front)
             self.sprites.pop()
+
+def opposite(dir1, dir2):
+    dead_list = [(pg.K_UP, pg.K_DOWN), (pg.K_DOWN, pg.K_UP),
+                 (pg.K_RIGHT, pg.K_LEFT), (pg.K_LEFT, pg.K_RIGHT)]
+    return (dir1, dir2) in dead_list
         
         
     

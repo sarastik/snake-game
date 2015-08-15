@@ -11,6 +11,7 @@ class Control():
         pg.init()
         pg.display.set_mode((600, 600))
         self.background = pg.image.load("sand.png").convert()
+        self.game_over = pg.image.load("game_over.png").convert()
         self.screen = pg.display.get_surface()
         self.screen_rect = self.screen.get_rect()
         self.done = False
@@ -25,16 +26,20 @@ class Control():
                 self.done = True
             elif event.type == pg.KEYDOWN:
                 self.snake.key_check = True
-                self.snake.change_direction(event.key)
+                self.snake.change_direction(event.key)                
 
     def main_loop(self):
         while not self.done:
             self.event_loop()
-            pg.time.delay(100) #for effect and slower speed
-            self.snake.update(self.screen_rect)
-            self.screen.blit(self.background, (0,0))
-            for part in self.snake.sprites:
-                self.screen.blit(part.image, part.rect)
+
+            if self.snake.dead:
+                self.screen.blit(self.game_over, (0,0))
+            else:
+                pg.time.delay(100) #for effect and slower speed
+                self.snake.update(self.screen_rect)    
+                self.screen.blit(self.background, (0,0))
+                for part in self.snake.sprites:
+                    self.screen.blit(part.image, part.rect)
             pg.display.update()
 
 if __name__ == "__main__":
