@@ -10,12 +10,12 @@ DIRECT_DICT = {pg.K_LEFT: (-1, 0),
 class Snake():
 
     def __init__(self, center, starting_direction = pg.K_UP):
-        front = snakeblock.SnakeBlock('head', (0,0,30,30), pg.K_UP, pg.K_DOWN)
+        front = snakeblock.SnakeBlock("head", (0,0,30,30), pg.K_UP, pg.K_DOWN)
         front.rect.center = center
         mid_rect = front.rect.move(0, 30)
         end_rect = mid_rect.move(0, 30)
-        middle = snakeblock.SnakeBlock('straight', mid_rect, pg.K_UP, pg.K_DOWN)
-        end = snakeblock.SnakeBlock('straight', end_rect, pg.K_UP, pg.K_DOWN)
+        middle = snakeblock.SnakeBlock("straight", mid_rect, pg.K_UP, pg.K_DOWN)
+        end = snakeblock.SnakeBlock('tail', end_rect, pg.K_UP, pg.K_DOWN)
         self.sprites = [front, middle, end]
         self.direction = starting_direction
         self.old_direction = pg.K_UP
@@ -23,10 +23,10 @@ class Snake():
         self.key_check = False
         self.dead = False
 
-    # Sets the direction after a key is pressed
+    #Sets the direction after a key is pressed
     def change_direction(self, key):
         if key in DIRECT_DICT:
-            self.direction = key    
+            self.direction = key
 
     def add(self, sprite):
         self.sprites.insert(0, sprite)
@@ -34,20 +34,43 @@ class Snake():
     def update(self, screen_rect):
         if opposite(self.direction, self.old_direction):
             self.dead = True
+
+        #Once the first key has been pressed    
         elif self.key_check:
+
+            #If the snake is turning
             if self.direction != self.old_direction:
                 neck_rect = self.sprites[0].rect
-                self.sprites[0] = snakeblock.SnakeBlock('bend', neck_rect, self.direction, self.old_direction)
+                self.sprites[0] = snakeblock.SnakeBlock("bend",
+                                                        neck_rect,
+                                                        self.direction,
+                                                        self.old_direction)
                 self.old_direction = self.direction
+
+            #If the snake is going straight     
             else:
                 neck_rect = self.sprites[0].rect
-                self.sprites[0] = snakeblock.SnakeBlock('straight', neck_rect, self.direction, self.old_direction)
+                self.sprites[0] = snakeblock.SnakeBlock("straight",
+                                                        neck_rect,
+                                                        self.direction,
+                                                        self.old_direction)
+
+            #The head gets added in the front
             x = DIRECT_DICT[self.direction][0]
             y = DIRECT_DICT[self.direction][1]
             front_rect = self.sprites[0].rect.move(x*30, y*30)
-            front = snakeblock.SnakeBlock('head', front_rect, self.direction, self.old_direction)
+            front = snakeblock.SnakeBlock("head", front_rect,
+                                          self.direction, self.old_direction)
             self.add(front)
+
+            #Removes old tail and creates new one
             self.sprites.pop()
+            end_rect = self.sprites[-1].rect
+            self.sprites[-1] = snakeblock.SnakeBlock("tail", end_rect,
+                                                     self.sprites[-2].direct_from,
+                                                     self.old_direction)
+            
+        #Checks for collision with screen edges
         clamped = self.sprites[0].rect.clamp(0,0,600,600)
         if clamped != self.sprites[0].rect:
             self.dead = True
