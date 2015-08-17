@@ -10,7 +10,7 @@ DIRECT_DICT = {pg.K_LEFT: (-1, 0),
 class Snake():
 
     def __init__(self, center, starting_direction = pg.K_UP):
-        front = snakeblock.SnakeBlock("head", (0,0,30,30), pg.K_UP, pg.K_DOWN)
+        front = snakeblock.SnakeBlock("head", (0, 0, 30, 30), pg.K_UP, pg.K_DOWN)
         front.rect.center = center
         mid_rect = front.rect.move(0, 30)
         end_rect = mid_rect.move(0, 30)
@@ -71,7 +71,7 @@ class Snake():
                                                      self.old_direction)
             
         #Checks for collision with screen edges
-        clamped = self.sprites[0].rect.clamp(0,0,600,600)
+        clamped = self.sprites[0].rect.clamp(screen_rect)
         if clamped != self.sprites[0].rect:
             self.dead = True
 
