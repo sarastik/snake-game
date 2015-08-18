@@ -22,6 +22,7 @@ class Snake():
 
         self.key_check = False
         self.dead = False
+        self.grow = False
 
     #Sets the direction after a key is pressed
     def change_direction(self, key):
@@ -63,12 +64,14 @@ class Snake():
                                           self.direction, self.old_direction)
             self.add(front)
 
-            #Removes old tail and creates new one
-            self.sprites.pop()
+            #Grows when necessary, keeping tail at the end
+            if not self.grow:
+                self.sprites.pop()
             end_rect = self.sprites[-1].rect
             self.sprites[-1] = snakeblock.SnakeBlock("tail", end_rect,
                                                      self.sprites[-2].direct_from,
                                                      self.old_direction)
+            self.grow = False
             
         #Checks for collision with screen edges
         clamped = self.sprites[0].rect.clamp(screen_rect)

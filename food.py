@@ -25,5 +25,6 @@ class Food():
     def update(self):
         if self.rect.colliderect(self.snake.sprites[0].rect):
             self.move()
+            self.snake.grow = True
 
     
