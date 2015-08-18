@@ -1,8 +1,6 @@
 import os
-import sys
 import pygame as pg
 import snake
-import snakeblock
 import food
 
 class Control():
@@ -20,7 +18,7 @@ class Control():
         self.snake = snake.Snake(self.screen_rect.center)
         self.food = food.Food(self.screen_rect.center, self.snake)
 
-    # Handles key presses and quitting
+    # Handles key presses and quitting while in game
     def event_loop(self):
         for event in pg.event.get():
             self.keys = pg.key.get_pressed()
@@ -33,7 +31,6 @@ class Control():
     def main_loop(self):
         while not self.done:
             self.event_loop()
-
             if self.snake.dead:
                 self.screen.blit(self.game_over, (0,0))
             else:
@@ -45,9 +42,4 @@ class Control():
                     self.screen.blit(part.image, part.rect)
                 self.screen.blit(self.food.image, self.food.rect)
             pg.display.update()
-
-if __name__ == "__main__":
-    run_it = Control()
-    run_it.main_loop()
-    pg.quit()
-    sys.exit()
+            

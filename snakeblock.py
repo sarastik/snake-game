@@ -1,13 +1,8 @@
-import os
-import sys
 import pygame as pg
-import control
 
-class SnakeBlock(pg.sprite.Sprite):
+class SnakeBlock():
 
     def __init__(self, part, rect, direct_to, direct_from):
-        pg.sprite.Sprite.__init__(self)
-
         self.part = part #straight, bend, head, tail
         self.rect = pg.Rect(rect)
         self.direct_to = direct_to
@@ -22,21 +17,18 @@ class SnakeBlock(pg.sprite.Sprite):
 
     def get_image(self):
         if self.part == "bend":
-            if self.direct_to == pg.K_UP and self.direct_from == pg.K_RIGHT:
+            directs = (self.direct_to, self.direct_from)
+            if directs == (pg.K_UP, pg.K_RIGHT) or \
+               directs == (pg.K_LEFT, pg.K_DOWN):
                 return pg.transform.rotate(self.frames[1], 270)
-            elif self.direct_to == pg.K_UP and self.direct_from == pg.K_LEFT:
+            elif directs == (pg.K_UP, pg.K_LEFT) or \
+                 directs == (pg.K_RIGHT, pg.K_DOWN):
                 return pg.transform.rotate(self.frames[1], 180)
-            elif self.direct_to == pg.K_LEFT and self.direct_from == pg.K_UP:
+            elif directs == (pg.K_LEFT, pg.K_UP) or \
+                 directs == (pg.K_DOWN, pg.K_RIGHT):
                 return self.frames[1]
-            elif self.direct_to == pg.K_LEFT and self.direct_from == pg.K_DOWN:
-                return pg.transform.rotate(self.frames[1], 270)
-            elif self.direct_to == pg.K_RIGHT and self.direct_from == pg.K_UP:
-                return pg.transform.rotate(self.frames[1], 90)
-            elif self.direct_to == pg.K_RIGHT and self.direct_from == pg.K_DOWN:
-                return pg.transform.rotate(self.frames[1], 180)
-            elif self.direct_to == pg.K_DOWN and self.direct_from == pg.K_RIGHT:
-                return self.frames[1]
-            elif self.direct_to == pg.K_DOWN and self.direct_from == pg.K_LEFT:
+            elif directs == (pg.K_RIGHT, pg.K_UP) or \
+                 directs == (pg.K_DOWN, pg.K_LEFT):
                 return pg.transform.rotate(self.frames[1], 90)
         elif self.part == "head":
             if self.direct_to == pg.K_UP:
