@@ -63,6 +63,9 @@ class Snake():
             front = snakeblock.SnakeBlock("head", front_rect,
                                           self.direction, self.old_direction)
             self.add(front)
+            for block in self.sprites[1:]:
+                if block.rect.collidepoint(front_rect.midtop):
+                    self.dead = True
 
             #Grows when necessary, keeping tail at the end
             if not self.grow:
