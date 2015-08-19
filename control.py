@@ -26,7 +26,10 @@ class Control():
                 self.done = True
             elif event.type == pg.KEYDOWN:
                 self.snake.key_check = True
-                self.snake.change_direction(event.key)                
+                self.snake.change_direction(event.key)
+                if self.snake.dead and event.key == pg.K_RETURN:
+                    self.__init__()
+                    self.main_loop()
 
     def main_loop(self):
         while not self.done:
