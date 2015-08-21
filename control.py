@@ -2,6 +2,7 @@ import os
 import pygame as pg
 import snake
 import food
+import score
 
 class Control():
     
@@ -17,6 +18,7 @@ class Control():
         self.keys = pg.key.get_pressed()
         self.snake = snake.Snake(self.screen_rect.center)
         self.food = food.Food(self.screen_rect.center, self.snake)
+        self.score = score.Score(self.snake)
 
     # Handles key presses and quitting while in game
     def event_loop(self):
@@ -40,9 +42,11 @@ class Control():
                 pg.time.delay(100) #for effect and slower speed
                 self.snake.update(self.screen_rect)
                 self.food.update()
+                self.score.update()
                 self.screen.blit(self.background, (0,0))
                 for part in self.snake.sprites:
                     self.screen.blit(part.image, part.rect)
                 self.screen.blit(self.food.image, self.food.rect)
+                self.screen.blit(self.score.image, self.score.rect)
             pg.display.update()
             

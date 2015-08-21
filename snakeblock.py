@@ -9,7 +9,7 @@ class SnakeBlock():
         self.direct_from = direct_from
 
         # Get the frames from the sprite sheet
-        self.sheet = pg.image.load("coral_snake.png").convert()
+        self.sheet = pg.image.load("snake.png").convert()
         indices = [[0, 0], [1, 0], [2, 0], [3, 0]]
         self.frames = get_images(self.sheet, indices, self.rect.size)
 
