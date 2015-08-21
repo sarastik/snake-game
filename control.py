@@ -3,6 +3,7 @@ import pygame as pg
 import snake
 import food
 import score
+import gameover
 
 class Control():
     
@@ -11,14 +12,15 @@ class Control():
         pg.init()
         pg.display.set_mode((630, 630))
         self.background = pg.image.load("sand.png").convert()
-        self.game_over = pg.image.load("game_over.png").convert()
         self.screen = pg.display.get_surface()
         self.screen_rect = self.screen.get_rect()
         self.done = False
         self.keys = pg.key.get_pressed()
+        
         self.snake = snake.Snake(self.screen_rect.center)
         self.food = food.Food(self.screen_rect.center, self.snake)
-        self.score = score.Score(self.snake)
+        self.score = score.Score(self.snake, self.screen_rect)
+        self.game_over = gameover.GameOver(self.snake, self.screen_rect)
 
     # Handles key presses and quitting while in game
     def event_loop(self):
@@ -37,7 +39,7 @@ class Control():
         while not self.done:
             self.event_loop()
             if self.snake.dead:
-                self.screen.blit(self.game_over, (0,0))
+                self.game_over.draw(self.screen)
             else:
                 pg.time.delay(100) #for effect and slower speed
                 self.snake.update(self.screen_rect)
