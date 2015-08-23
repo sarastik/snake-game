@@ -34,7 +34,7 @@ class Snake():
 
     def update(self, screen_rect):
         if opposite(self.direction, self.old_direction):
-            self.dead = True
+            self.direction = self.old_direction
 
         #Once the first key has been pressed    
         elif self.key_check:
