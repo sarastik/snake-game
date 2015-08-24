@@ -37,7 +37,7 @@ class Snake():
             self.direction = self.old_direction
 
         #Once the first key has been pressed    
-        elif self.key_check:
+        if self.key_check:
 
             #If the snake is turning
             if self.direction != self.old_direction:
