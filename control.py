@@ -37,11 +37,11 @@ class Control():
 
     def main_loop(self):
         while not self.done:
+            pg.time.delay(100) #for effect and slower speed
             self.event_loop()
             if self.snake.dead:
                 self.game_over.draw(self.screen)
             else:
-                pg.time.delay(100) #for effect and slower speed
                 self.snake.update(self.screen_rect)
                 self.food.update()
                 self.score.update()

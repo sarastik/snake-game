@@ -11,6 +11,7 @@ class Food():
         self.rect.center = center
         self.rect = self.rect.move(0, -60)
         self.image = pg.image.load("meat.png").convert()
+        self.sound = pg.mixer.Sound("bite.wav")
 
     def move(self):
         x = random.randint(0, 600)
@@ -24,6 +25,7 @@ class Food():
 
     def update(self):
         if self.rect.colliderect(self.snake.sprites[0].rect):
+            self.sound.play()
             self.move()
             self.snake.grow = True
 
