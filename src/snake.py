@@ -24,6 +24,8 @@ class Snake():
         self.dead = False
         self.grow = False
 
+        self.game_over_sound = pg.mixer.Sound("sounds/game_over.wav")
+
     #Sets the direction after a key is pressed
     def change_direction(self, key):
         if key in DIRECT_DICT:
@@ -66,6 +68,7 @@ class Snake():
             for block in self.sprites[1:]:
                 if block.rect.collidepoint(front_rect.midtop):
                     self.dead = True
+                    self.game_over_sound.play()
 
             #Grows when necessary, keeping tail at the end
             if not self.grow:
@@ -80,6 +83,7 @@ class Snake():
         clamped = self.sprites[0].rect.clamp(screen_rect)
         if clamped != self.sprites[0].rect:
             self.dead = True
+            self.game_over_sound.play()
 
 def opposite(dir1, dir2):
     dead_list = [(pg.K_UP, pg.K_DOWN), (pg.K_DOWN, pg.K_UP),

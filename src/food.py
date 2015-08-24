@@ -11,7 +11,7 @@ class Food():
         self.rect.center = center
         self.rect = self.rect.move(0, -60)
         self.image = pg.image.load("sprites/meat.png").convert()
-        self.sound = pg.mixer.Sound("bite.wav")
+        self.sound = pg.mixer.Sound("sounds/bite.wav")
 
     def move(self):
         x = random.randint(0, 600)
