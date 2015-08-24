@@ -7,7 +7,7 @@ class GameOver():
         self.screen_rect = screen_rect
         self.font = pg.font.Font("DIMITRI_.TTF", 30)
         
-        self.game_over = pg.image.load("game_over_text.png").convert()
+        self.game_over = pg.image.load("sprites/game_over_text.png").convert()
         self.game_over.set_colorkey((51, 250, 1))
         self.game_over_rect = self.game_over.get_rect(center = self.screen_rect.center)
                 

@@ -11,7 +11,7 @@ class Control():
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pg.init()
         pg.display.set_mode((630, 630))
-        self.background = pg.image.load("sand.png").convert()
+        self.background = pg.image.load("sprites/sand.png").convert()
         self.screen = pg.display.get_surface()
         self.screen_rect = self.screen.get_rect()
         self.done = False

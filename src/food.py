@@ -10,7 +10,7 @@ class Food():
         self.rect = pg.Rect((0, 0, 30, 30))
         self.rect.center = center
         self.rect = self.rect.move(0, -60)
-        self.image = pg.image.load("meat.png").convert()
+        self.image = pg.image.load("sprites/meat.png").convert()
         self.sound = pg.mixer.Sound("bite.wav")
 
     def move(self):
