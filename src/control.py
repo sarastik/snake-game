@@ -4,6 +4,7 @@ import snake
 import food
 import score
 import gameover
+import title
 
 class Control():
     
@@ -20,7 +21,10 @@ class Control():
         self.snake = snake.Snake(self.screen_rect.center)
         self.food = food.Food(self.screen_rect.center, self.snake)
         self.score = score.Score(self.snake, self.screen_rect)
-        self.game_over = gameover.GameOver(self.snake, self.screen_rect)
+        self.game_over = gameover.GameOver(self.screen_rect)
+        self.title = title.Title(self.screen_rect)
+
+        self.state = "Title" #"Alive", "Dead"
 
     # Handles key presses and quitting while in game
     def event_loop(self):
@@ -29,19 +33,28 @@ class Control():
             if event.type == pg.QUIT or self.keys[pg.K_ESCAPE]:
                 self.done = True
             elif event.type == pg.KEYDOWN:
-                self.snake.key_check = True
-                self.snake.change_direction(event.key)
-                if self.snake.dead and event.key == pg.K_RETURN:
-                    self.__init__()
-                    self.main_loop()
+                if self.state == "Alive":
+                    self.snake.key_check = True
+                    self.snake.change_direction(event.key)
+                if event.key == pg.K_RETURN:
+                    if self.state == "Dead":
+                        self.__init__()
+                        self.state = "Alive"
+                        self.main_loop()
+                    elif self.state == "Title":
+                        self.state = "Alive"                        
 
     def main_loop(self):
         while not self.done:
             pg.time.delay(100) #for effect and slower speed
             self.event_loop()
             if self.snake.dead:
+                self.state = "Dead"
+            if self.state == "Title":
+                self.title.draw(self.screen)
+            elif self.state == "Dead":
                 self.game_over.draw(self.screen)
-            else:
+            elif self.state == "Alive":
                 self.snake.update(self.screen_rect)
                 self.food.update()
                 self.score.update()
