@@ -29,4 +29,7 @@ class Food():
             self.move()
             self.snake.grow = True
 
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
     

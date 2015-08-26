@@ -10,12 +10,12 @@ DIRECT_DICT = {pg.K_LEFT: (-1, 0),
 class Snake():
 
     def __init__(self, center, starting_direction = pg.K_UP):
-        front = snakeblock.SnakeBlock("head", (0, 0, 30, 30), pg.K_UP, pg.K_DOWN)
+        front = snakeblock.SnakeBlock("head", (0, 0, 30, 30), pg.K_UP, pg.K_DOWN, False)
         front.rect.center = center
         mid_rect = front.rect.move(0, 30)
         end_rect = mid_rect.move(0, 30)
-        middle = snakeblock.SnakeBlock("straight", mid_rect, pg.K_UP, pg.K_DOWN)
-        end = snakeblock.SnakeBlock('tail', end_rect, pg.K_UP, pg.K_DOWN)
+        middle = snakeblock.SnakeBlock("straight", mid_rect, pg.K_UP, pg.K_DOWN, False)
+        end = snakeblock.SnakeBlock('tail', end_rect, pg.K_UP, pg.K_DOWN, False)
         self.sprites = [front, middle, end]
         self.direction = starting_direction
         self.old_direction = pg.K_UP
@@ -47,7 +47,8 @@ class Snake():
                 self.sprites[0] = snakeblock.SnakeBlock("bend",
                                                         neck_rect,
                                                         self.direction,
-                                                        self.old_direction)
+                                                        self.old_direction,
+                                                        self.dead)
                 self.old_direction = self.direction
 
             #If the snake is going straight     
@@ -56,14 +57,16 @@ class Snake():
                 self.sprites[0] = snakeblock.SnakeBlock("straight",
                                                         neck_rect,
                                                         self.direction,
-                                                        self.old_direction)
+                                                        self.old_direction,
+                                                        self.dead)
 
             #The head gets added in the front
             x = DIRECT_DICT[self.direction][0]
             y = DIRECT_DICT[self.direction][1]
             front_rect = self.sprites[0].rect.move(x*30, y*30)
             front = snakeblock.SnakeBlock("head", front_rect,
-                                          self.direction, self.old_direction)
+                                          self.direction, self.old_direction,
+                                          self.dead)
             self.add(front)
             for block in self.sprites[1:]:
                 if block.rect.collidepoint(front_rect.midtop):
@@ -76,7 +79,8 @@ class Snake():
             end_rect = self.sprites[-1].rect
             self.sprites[-1] = snakeblock.SnakeBlock("tail", end_rect,
                                                      self.sprites[-2].direct_from,
-                                                     self.old_direction)
+                                                     self.old_direction,
+                                                     self.dead)
             self.grow = False
             
         #Checks for collision with screen edges
@@ -84,6 +88,12 @@ class Snake():
         if clamped != self.sprites[0].rect:
             self.dead = True
             self.game_over_sound.play()
+
+    def draw(self, screen):
+        for part in self.sprites:
+            screen.blit(part.image, part.rect)
+            if self.dead:
+                screen.blit(self.sprites[0].image, self.sprites[0].rect)
 
 def opposite(dir1, dir2):
     dead_list = [(pg.K_UP, pg.K_DOWN), (pg.K_DOWN, pg.K_UP),

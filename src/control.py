@@ -55,13 +55,15 @@ class Control():
             elif self.state == "Dead":
                 self.game_over.draw(self.screen)
             elif self.state == "Alive":
+                #Update all the sprites
                 self.snake.update(self.screen_rect)
                 self.food.update()
                 self.score.update()
+                
+                #Draw them on the screen
                 self.screen.blit(self.background, (0,0))
-                for part in self.snake.sprites:
-                    self.screen.blit(part.image, part.rect)
-                self.screen.blit(self.food.image, self.food.rect)
-                self.screen.blit(self.score.image, self.score.rect)
+                self.snake.draw(self.screen)
+                self.food.draw(self.screen)
+                self.score.draw(self.screen)
             pg.display.update()
             

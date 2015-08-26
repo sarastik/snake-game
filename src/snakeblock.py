@@ -2,15 +2,16 @@ import pygame as pg
 
 class SnakeBlock():
 
-    def __init__(self, part, rect, direct_to, direct_from):
+    def __init__(self, part, rect, direct_to, direct_from, dead):
         self.part = part #straight, bend, head, tail
         self.rect = pg.Rect(rect)
         self.direct_to = direct_to
         self.direct_from = direct_from
+        self.dead = dead
 
         # Get the frames from the sprite sheet
         self.sheet = pg.image.load("sprites/snake.png").convert()
-        indices = [[0, 0], [1, 0], [2, 0], [3, 0]]
+        indices = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
         self.frames = get_images(self.sheet, indices, self.rect.size)
 
         self.image = self.get_image()
@@ -31,14 +32,15 @@ class SnakeBlock():
                  directs == (pg.K_DOWN, pg.K_LEFT):
                 return pg.transform.rotate(self.frames[1], 90)
         elif self.part == "head":
+            head_sprite = self.frames[4] if self.dead else self.frames[0]
             if self.direct_to == pg.K_UP:
-                return self.frames[0]
+                return head_sprite
             elif self.direct_to == pg.K_RIGHT:
-                return pg.transform.rotate(self.frames[0], 270)
+                return pg.transform.rotate(head_sprite, 270)
             elif self.direct_to == pg.K_LEFT:
-                return pg.transform.rotate(self.frames[0], 90)
+                return pg.transform.rotate(head_sprite, 90)
             else:
-                return pg.transform.rotate(self.frames[0], 180)
+                return pg.transform.rotate(head_sprite, 180)
         elif self.part == "tail":
             if self.direct_to == pg.K_UP:
                 return self.frames[3]

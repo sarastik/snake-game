@@ -17,3 +17,6 @@ class Score():
     def update(self):
         text = "Score: " + str(self.get_score())
         self.image = self.font.render(text, False, (0, 0, 0))
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
