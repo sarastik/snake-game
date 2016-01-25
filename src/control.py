@@ -5,20 +5,26 @@ import food
 import score
 import gameover
 import title
+import random
 
+BACKGROUND_DICT = { 0: "sprites/sand.png",
+                    1: "sprites/dirt.png"}
 class Control():
     
     def __init__(self):
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pg.init()
         pg.display.set_mode((630, 630))
-        self.background = pg.image.load("sprites/sand.png").convert()
+
+        background_picker = random.choice([0, 1])
+        self.background = pg.image.load(BACKGROUND_DICT[background_picker]).convert()
         self.screen = pg.display.get_surface()
         self.screen_rect = self.screen.get_rect()
         self.done = False
         self.keys = pg.key.get_pressed()
         
-        self.snake = snake.Snake(self.screen_rect.center)
+        snake_picker = random.choice([0, 1])
+        self.snake = snake.Snake(snake_picker, self.screen_rect.center)
         self.food = food.Food(self.screen_rect.center, self.snake)
         self.score = score.Score(self.snake, self.screen_rect)
         self.game_over = gameover.GameOver(self.screen_rect)

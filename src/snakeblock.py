@@ -2,7 +2,7 @@ import pygame as pg
 
 class SnakeBlock():
 
-    def __init__(self, part, rect, direct_to, direct_from, dead):
+    def __init__(self, snake, part, rect, direct_to, direct_from, dead):
         self.part = part #straight, bend, head, tail
         self.rect = pg.Rect(rect)
         self.direct_to = direct_to
@@ -10,7 +10,10 @@ class SnakeBlock():
         self.dead = dead
 
         # Get the frames from the sprite sheet
-        self.sheet = pg.image.load("sprites/snake.png").convert()
+        if snake == 0: #normal snake
+            self.sheet = pg.image.load("sprites/snake.png").convert()
+        elif snake == 1: #coral snake
+            self.sheet = pg.image.load("sprites/coral_snake.png").convert()
         indices = [[0, 0], [1, 0], [2, 0], [3, 0], [4, 0]]
         self.frames = get_images(self.sheet, indices, self.rect.size)
 
